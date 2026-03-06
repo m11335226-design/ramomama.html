@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ramo Romántico 🌹</title>
+
+<style>
+body{
+margin:0;
+background:linear-gradient(#0f2027,#203a43,#2c5364);
+overflow:hidden;
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+flex-direction:column;
+}
+
+canvas{
+background:transparent;
+}
+
+h1{
+position:absolute;
+bottom:50px;
+font-size:45px;
+color:#ffb6c1;
+animation:aparece 4s ease-in-out;
+}
+
+@keyframes aparece{
+0%{opacity:0; transform:scale(0.5);}
+100%{opacity:1; transform:scale(1);}
+}
+
+.corazon{
+position:absolute;
+color:#ff4d6d;
+animation:flotar 6s linear infinite;
+}
+
+@keyframes flotar{
+0%{transform:translateY(0); opacity:1;}
+100%{transform:translateY(-800px); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="c" width="500" height="500"></canvas>
+<h1>I love you ❤️</h1>
+
+<script>
+let canvas=document.getElementById("c");
+let ctx=canvas.getContext("2d");
+
+function petalo(cx,cy,r,angle,color){
+ctx.save();
+ctx.translate(cx,cy);
+ctx.rotate(angle);
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.quadraticCurveTo(r, -r, r*1.5,0);
+ctx.quadraticCurveTo(r, r, 0,0);
+ctx.fillStyle=color;
+ctx.fill();
+ctx.restore();
+}
+
+function rosa(cx,cy,size,color){
+for(let i=0;i<6;i++){
+petalo(cx,cy,size,i*Math.PI/3,color);
+}
+
+ctx.beginPath();
+ctx.arc(cx,cy,size*0.3,0,Math.PI*2);
+ctx.fillStyle="yellow";
+ctx.fill();
+}
+
+function tallo(x){
+ctx.beginPath();
+ctx.moveTo(x,260);
+ctx.lineTo(250,500);
+ctx.strokeStyle="green";
+ctx.lineWidth=4;
+ctx.stroke();
+}
+
+function papel(){
+ctx.beginPath();
+ctx.moveTo(160,300);
+ctx.lineTo(340,300);
+ctx.lineTo(250,500);
+ctx.closePath();
+ctx.fillStyle="#d2b48c";
+ctx.fill();
+}
+
+function dibujarRamo(){
+ctx.clearRect(0,0,500,500);
+
+papel();
+
+let rosas=[
+{ x:200,y:200,color:"#ff4d6d"},
+{ x:260,y:170,color:"#ff6b81"},
+{ x:310,y:210,color:"#ff758f"},
+{ x:140,y:210,color:"#ff6b81"}
+];
+
+rosas.forEach(r=>{
+rosa(r.x,r.y,35,r.color);
+tallo(r.x);
+});
+}
+
+dibujarRamo();
+
+function corazon(){
+let h=document.createElement("div");
+h.className="corazon";
+h.innerHTML="❤️";
+h.style.left=Math.random()*window.innerWidth+"px";
+h.style.top="600px";
+h.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(h);
+setTimeout(()=>{h.remove();},6000);
+}
+
+setInterval(corazon,300);
+</script>
+
+</body>
+</html>
